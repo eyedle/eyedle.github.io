@@ -57,7 +57,33 @@
  
         // Добавление данных на карту
         map.addLayer(spaceLayer)
-             
+        map.addLayer(location)
+
+       /**
+ * Assuming that "map" and "platform" are already initialized, and
+ * CLE data layer was uploaded to the service.
+ */
+ // Create default map layers:
+var service = platform.getCustomLocationService();
+
+// create tile provider and layer that displays CLE layer
+var provider = new mapsjs.service.extension.customLocation.TileProvider(service, {
+  layerId: 'SEATTLE_14'
+}, {
+  resultType: mapsjs.service.extension.TileProvider.ResultType.POLYGON, 
+  min: 15
+});
+
+var layer = new mapsjs.map.layer.TileLayer(provider);
+map.addLayer(layer);
+
+map.addEventListener('tap', function(ev) {
+  var row;
+  if (ev.target !== map) {
+    row = ev.target.getData();
+    console.log('SHAPE_AREA: ', row.getCell('SHAPE_AREA'));
+  }
+});      
     </script>
   </body>
 </html>
