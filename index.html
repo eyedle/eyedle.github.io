@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+    <title>Map at a specified location</title>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" /> 
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
+    <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+  
+    <style>
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script type="text/javascript">
+
+        const platform = new H.service.Platform({
+          apikey: "x2smXaymyP5ASfoopWRzSjcsfHPRzkgUFSoDPsnln0w"
+        })
+        
+        const defaultLayers = platform.createDefaultLayers()
+
+        const map = new H.Map(document.getElementById('map'),
+          defaultLayers.vector.normal.map,{
+          center: {
+            lat: 55.75203, 
+            lng: 37.61951
+          },
+          zoom: 10,
+          pixelRatio: window.devicePixelRatio || 1
+        })
+ 
+        window.addEventListener('resize', () => map.getViewPort().resize())
+
+        const behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map))
+        const ui = H.ui.UI.createDefault(map, defaultLayers)
+
+        // Инициализация соединения с облачным хранилищем HERE XYZ
+        const service = platform.getXYZService({
+          token: "APs9JH8eRoitxV4FztpZKwA"
+        })
+
+        // Провайдер даных из HERE XYZ
+        const spaceProvider = new H.service.xyz.Provider(service, "sTXqiVDP")
+
+        // Создание нового тайлового слоя
+        const spaceLayer = new H.map.layer.TileLayer(spaceProvider)
+ 
+        // Добавление данных на карту
+        map.addLayer(spaceLayer)
+             
+    </script>
+  </body>
+</html>
