@@ -1,7 +1,7 @@
 const container = document.getElementById('blog-container');
 
 async function fetchPosts() {
-  const postFiles = ['posts/post1.md']; // add more here
+  const postFiles = ['posts/post100.md']; // add more here
   let html = '';
 
   for (const file of postFiles) {
