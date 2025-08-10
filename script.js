@@ -14,3 +14,21 @@ async function fetchPosts() {
 }
 
 if (container) fetchPosts();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.querySelector('.danger-toggle');
+  const content = document.querySelector('.danger-content');
+
+  if (!toggle || !content) {
+    console.warn('Danger zone elements not found', { toggle, content });
+    return;
+  }
+
+  toggle.addEventListener('click', () => {
+    const visible = content.classList.toggle('show');
+    // update button text arrow
+    toggle.textContent = visible ? 'Danger Zone ▲' : 'Danger Zone ▼';
+    // maintain aria
+    content.setAttribute('aria-hidden', visible ? 'false' : 'true');
+  });
+});
